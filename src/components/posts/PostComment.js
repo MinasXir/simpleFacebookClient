@@ -47,7 +47,7 @@ export default function PostComment({ postName, postId }) {
           style={{ width: "30vw", border: "1px solid #000" }}
         >
         </div>
-        <button type="submit">New Comment</button>
+        <input type="submit" value="New comment"/>
       </form>
     </>
   );

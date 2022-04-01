@@ -27,17 +27,9 @@ function AuthContextProvider(props) {
     const notifications = await axios.get(
       "http://localhost:5000/auth/notifications"
     );
-    setNotifications(notifications.data.notifications);
-    setfilteredResultNotificationsLikes(
-      notifications.data.notifications.filter((notification) =>
-        notification.likes.find((like) => like.seen === false)
-      )
-    );
-    setfilteredResultNotificationsComments(
-      notifications.data.notifications.filter((notification) =>
-        notification.comments.find((comment) => comment.seen === false)
-      )
-    );
+    setNotifications(notifications.data);
+    setfilteredResultNotificationsLikes(notifications.data.postLikesNotSeen);
+    setfilteredResultNotificationsComments(notifications.data.postCommentsNotSeen);
   }
 
   function changeStateToRerender() {

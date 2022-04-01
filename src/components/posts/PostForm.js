@@ -48,7 +48,7 @@ function PostForm() {
         style={{ width: "80%", height:"15vh", overflowY:"auto", border:"1px solid #000"}}
         >
         </div>
-        <button style={{ width: "20%" }} type="submit">POST</button>
+        <input style={{ width: "20%" }} type="submit" value="New post" />
       </form>
     </div>
   );

@@ -22,7 +22,7 @@ const [isOpen, setIsOpen] = useState(false)
       position: `absolute`,
       borderRadius: `5px`,
       overflowY: "auto",
-      padding: `20px`,
+      padding: `10px`,
       backgroundColor: "#444",
       fontSize: `1.1em`,
       zIndex:"2",
@@ -35,8 +35,13 @@ const [isOpen, setIsOpen] = useState(false)
   };
 
   return (
-    <>
-      <div onClick={() => { !children.length ? setIsOpen(isOpen) : setIsOpen(!isOpen) }}>{buttonName}</div>
+    <div>
+    <button
+    style={{cursor:"pointer"}}
+        onClick={() => { !children.length ? setIsOpen(isOpen) : setIsOpen(!isOpen)}}
+    >
+      {buttonName}
+          </button>
       <div
         style={FixedDivForCloseOutsideToggleClick()}
         onClick={() => setIsOpen(!isOpen)}
@@ -47,6 +52,6 @@ const [isOpen, setIsOpen] = useState(false)
       >
        {children}
       </div>
-      </>
+      </div>
   );
 }

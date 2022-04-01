@@ -11,6 +11,8 @@ const ChatBox = ({
   const { sessionSocket } = useContext(AuthContext);
   const { chatMessage } = useContext(AuthContext);
 
+  const [checkIfOpen, setcheckIfOpen] = useState(false)
+
   const elem = useRef(null);
   const inputChatMessage = useRef(null);
 
@@ -32,7 +34,7 @@ const ChatBox = ({
         //render only to the corect user box(super sos)
           return (
             <div style={{ backgroundColor: item.from ? "rgb(187, 187, 187" : "#1B74E4", padding: "10px", margin: "5px", borderRadius: "3px", color: item.from ? "#000" : "#fff"}} key={i}>
-              {item.from ? `${item.from}:` : "You:"}
+              {item.from ? `${item.from}:` : null}
               {item.message}
             </div>
           );
@@ -42,7 +44,7 @@ const ChatBox = ({
   const contentStyle = () => {
     return {
       height: `30px`,
-      width: "70px",
+      width: "80px",
       overflow: "hidden",
       transition: "all 0.2s ease-in-out",
     };
@@ -51,10 +53,12 @@ const ChatBox = ({
   function toggleAccordiom() {
     if (elem.current.style.height !== `30px`) {
       elem.current.style.height = `30px`;
-      elem.current.style.width = `70px`;
+      elem.current.style.width = `80px`;
+      setcheckIfOpen(!checkIfOpen)
     } else {
       elem.current.style.height = `75vh`;
       elem.current.style.width = "325px";
+      setcheckIfOpen(!checkIfOpen)
     }
   }
   function sendMessage(e, user) {
@@ -94,7 +98,7 @@ const ChatBox = ({
           className="accordion-user"
           onClick={() => toggleAccordiom()}
         >
-          <h5>{user}</h5>
+          <h5>{!checkIfOpen && user.length > 7 ? `${user.substring(0, 7)}..` : user}</h5>
           <h5 onClick={() => closeChatbox(user)}>X</h5>
         </div>
         <div>
@@ -105,6 +109,7 @@ const ChatBox = ({
               overflowY: "auto",
               overflowWrap: `break-word`,
               margin: "0",
+              backgroundColor:"rgb(247, 247, 247)",
               padding: "5px",
             }}
           >

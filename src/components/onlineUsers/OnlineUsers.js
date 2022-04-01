@@ -74,11 +74,11 @@ function OnlineUsers() {
           <div style={divstyle()}>
             {chatBoxes
               .filter((item) => item.vissible !== false)
-              .map(({ user }) => (
+              .map(({ user }, i) => (
                 <ChatBox
                   chatBoxes={chatBoxes}
                   setChatBoxes={setChatBoxes}
-                  key={user}
+                  key={i}
                   user={user}
                   chatMessages={chatMessages}
                   setchatMessages={setchatMessages}

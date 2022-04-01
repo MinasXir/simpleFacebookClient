@@ -60,25 +60,19 @@ function Navbar() {
 
 
   return (
+    <>
+    {(loggedIn === true || loggedIn === "admin") && (
     <div style={NavBarStyle()}>
-      {(loggedIn === true || loggedIn === "admin") && (
-        <>
-          <Link onClick={changeStateToRerender} to="/">
-            Posts
-          </Link>
-          <Link to="/users">Users</Link>
-          <div style={{display:"flex"}}>
-          <Toggle
-          buttonName={`likes:${filteredResultNotificationsLikes.length ? 
-              filteredResultNotificationsLikes.length : 0}`}
-          >
-            <h3>Likes</h3>
-            {notifications &&
-              filteredResultNotificationsLikes.map((notification, i) => {
+    <Link onClick={changeStateToRerender} to="/">Posts</Link>
+    <Link to="/users">Users</Link>
+     <div style={{display:"flex"}}>
+      <Toggle buttonName={`likes:${filteredResultNotificationsLikes.length ? filteredResultNotificationsLikes.length : 0}`}>
+      <h3>Likes</h3>
+      {notifications && filteredResultNotificationsLikes.map((notification, i) => {
                 return (
                   <div key={i}>
                     {notification.post.substring(0, 22)}
-                    {notification.likes.map((like, i) => {
+                    {notification.likes.slice(0).reverse().map((like, i) => {
                       return (
                         <Link
                           style={NotificationLikeStyle(like.seen)}
@@ -105,7 +99,7 @@ function Navbar() {
                 return (
                   <div key={i}>
                     {notification.post.substring(0, 22)}
-                    {notification.comments.map((comment, i) => {
+                    {notification.comments.slice(0).reverse().map((comment, i) => {
                       return (
                         <Link
                           style={NotificationLikeStyle(comment.seen)}
@@ -132,9 +126,8 @@ function Navbar() {
           <Link to={`/user/${currentUsername.userProfileId}`}><span style={{backgroundColor:"#fff", color:"#000", borderRadius:"5px", padding:"5px", marginRight:"5px"}}>{currentUsername.name}</span></Link>
           <LogOutBtn />
           </div>
-        </>
-      )}
-    </div>
+      </div>
+      )}</>
   );
 }
 
