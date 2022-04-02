@@ -15,12 +15,12 @@ function AuthContextProvider(props) {
   const [chatMessage, setchatMessage] = useState(null);
   const [notice, setNotice] = useState();
   const [
-    filteredResultNotificationsLikes,
-    setfilteredResultNotificationsLikes,
+    NotificationsLikes,
+    setNotificationsLikes,
   ] = useState([]);
   const [
-    filteredResultNotificationsComments,
-    setfilteredResultNotificationsComments,
+    NotificationsComments,
+    setNotificationsComments,
   ] = useState([]);
 
   async function getNotifications() {
@@ -28,8 +28,8 @@ function AuthContextProvider(props) {
       "http://localhost:5000/auth/notifications"
     );
     setNotifications(notifications.data);
-    setfilteredResultNotificationsLikes(notifications.data.postLikesNotSeen);
-    setfilteredResultNotificationsComments(notifications.data.postCommentsNotSeen);
+    setNotificationsLikes(notifications.data.postLikesNotSeen);
+    setNotificationsComments(notifications.data.postCommentsNotSeen);
   }
 
   function changeStateToRerender() {
@@ -51,19 +51,19 @@ function AuthContextProvider(props) {
     socket.on("users-list-connected", (users) => {
       setOnlineUsers(users);
     });
-    socket.on("post-like-notification", (personWhoLikedYourPost) => {
-      setNotice(personWhoLikedYourPost);
-    getNotifications();
+    socket.on("post-like-notification", (messageAndPost) => {
+      setNotice(messageAndPost.message);
+      setNotificationsLikes(NotificationsLikes => [messageAndPost.post , ...NotificationsLikes])
     });
     socket.on("post-dislike-notification", (personWhoDisLikedYourPost) => {
      getNotifications();
       if (personWhoDisLikedYourPost !== currentUsername.name)
-        setNotice(personWhoDisLikedYourPost);
+        setNotice(personWhoDisLikedYourPost.message);
     });
-    socket.on("post-comment-notification", (personWhoCommentedOnYourPost) => {
-      getNotifications();
-      if (personWhoCommentedOnYourPost !== currentUsername.name) 
-        setNotice(personWhoCommentedOnYourPost);
+    socket.on("post-comment-notification", (messageAndPost) => {
+      setNotificationsComments(NotificationsComments => [messageAndPost.post, ...NotificationsComments])
+      if (messageAndPost.name !== currentUsername.name) 
+        setNotice(messageAndPost.message);
     });
     socket.on("message", (message) => {
       setchatMessage(message)
@@ -115,10 +115,9 @@ function AuthContextProvider(props) {
           notifications,
           getLoggedIn,
           rerenderCheck,
-          //getNotifications,
           changeStateToRerender,
-          filteredResultNotificationsLikes,
-          filteredResultNotificationsComments,
+          NotificationsLikes,
+          NotificationsComments,
           chatMessage
         }}
       >

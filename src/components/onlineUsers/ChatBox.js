@@ -34,7 +34,7 @@ const ChatBox = ({
         //render only to the corect user box(super sos)
           return (
             <div style={{ backgroundColor: item.from ? "rgb(187, 187, 187" : "#1B74E4", padding: "10px", margin: "5px", borderRadius: "3px", color: item.from ? "#000" : "#fff"}} key={i}>
-              {item.from ? `${item.from}:` : null}
+              {item.from ? <span style={{ color: "#333"}}>{item.from}: </span> : null}
               {item.message}
             </div>
           );

@@ -44,11 +44,7 @@ function PostList() {
   async function likePost (event, postId, userName, userWhoGetsTheLike) {
     const likePost = {
       userName: userName,
-    };
-    if (event.target.innerText === "Like the post" && sessionStorage.getItem("token")){
-  sessionSocket.emit("post-like", userWhoGetsTheLike);}
-    else { sessionSocket.emit("post-dislike", userWhoGetsTheLike); }
- 
+    }; 
     await axios
       .put(`http://localhost:5000/post/likepost/${postId}`, likePost)
       .then((response) => {
@@ -56,7 +52,16 @@ function PostList() {
         //update main posts array by replacing the old object post.   comments with the new from the response
         setPosts(posts.map(
           post => post._id === response.data.post._id ? { ...post, likes: response.data.post.likes } : post
-        ))
+        ));
+        const likePostSocket = {
+          postId, userName, userWhoGetsTheLike,
+        };
+        if (event.target.innerText === "👎" && sessionStorage.getItem("token")) {
+          sessionSocket.emit("post-like", likePostSocket);
+        }
+        else {
+          sessionSocket.emit("post-dislike", likePostSocket);
+        }
       });
   };
 

@@ -8,8 +8,8 @@ function Navbar() {
   const { loggedIn } = useContext(AuthContext);
   const { currentUsername } = useContext(AuthContext);
   const { notifications } = useContext(AuthContext);
-  const { filteredResultNotificationsComments } = useContext(AuthContext);
-  const { filteredResultNotificationsLikes } = useContext(AuthContext);
+  const { NotificationsComments } = useContext(AuthContext);
+  const { NotificationsLikes } = useContext(AuthContext);
 
   //updates posts useEfFect component when the Link is clicked in case we already in posts page but we need to get latests post and scroll up.
   const { changeStateToRerender } = useContext(AuthContext);
@@ -66,9 +66,9 @@ function Navbar() {
     <Link onClick={changeStateToRerender} to="/">Posts</Link>
     <Link to="/users">Users</Link>
      <div style={{display:"flex"}}>
-      <Toggle buttonName={`likes:${filteredResultNotificationsLikes.length ? filteredResultNotificationsLikes.length : 0}`}>
+      <Toggle buttonName={`likes:${NotificationsLikes.length ? NotificationsLikes.length : 0}`}>
       <h3>Likes</h3>
-      {notifications && filteredResultNotificationsLikes.map((notification, i) => {
+      {notifications && NotificationsLikes.map((notification, i) => {
                 return (
                   <div key={i}>
                     {notification.post.substring(0, 22)}
@@ -91,11 +91,11 @@ function Navbar() {
                 );
               })}
           </Toggle>
-          <Toggle buttonName={`comments:${filteredResultNotificationsComments.length ? filteredResultNotificationsComments.length : 0}`}
+          <Toggle buttonName={`comments:${NotificationsComments.length ? NotificationsComments.length : 0}`}
           >
             <h3>Comments</h3>
             {notifications &&
-              filteredResultNotificationsComments.map((notification, i) => {
+              NotificationsComments.map((notification, i) => {
                 return (
                   <div key={i}>
                     {notification.post.substring(0, 22)}

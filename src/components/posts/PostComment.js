@@ -18,9 +18,6 @@ export default function PostComment({ postName, postId }) {
         user: currentUsername.name,
         comment: inputComment.current.innerText,
       };
-      if (sessionStorage.getItem("token")) {
-        sessionSocket.emit("post-comment", postName);
-      }
       await axios
         .post(`http://localhost:5000/post/comment/${postId}`, comment)
         .then((response) => {
@@ -28,7 +25,15 @@ export default function PostComment({ postName, postId }) {
           //update main posts array by replacing the old object post.   comments with the new from the response
           setPosts(posts.map(
             post => post._id === response.data.post._id ? { ...post, comments: response.data.post.comments } : post
-          ))
+          ));
+          if (sessionStorage.getItem("token")) {
+            const commentPostSocket = {
+              postId: postId,
+              userName: currentUsername.name,
+              userWhoGetsTheComment: postName,
+            };
+            sessionSocket.emit("post-comment", commentPostSocket);
+          }
           inputComment.current.innerText = ""
         });
     } catch (err) {
