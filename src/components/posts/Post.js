@@ -9,7 +9,6 @@ function Post() {
   const [post, setPost] = useState([]);
   const location = useLocation();
   const { currentUsername } = useContext(AuthContext);
-  //const { getNotifications } = useContext(AuthContext);
   const [notice, setNotice] = useState();
   const [NewComment, setNewComment] = useState();
   const [DeletedPostMessage, setDeletedPostMessage] = useState("");
@@ -19,8 +18,8 @@ function Post() {
     const postRes = await axios.get(
       `http://localhost:5000/post${window.location.pathname}`
     );
-    if (postRes) setPost(postRes.data);
-    else setDeletedPostMessage("The post has been deleted");
+    if (postRes.data.length) return setPost(postRes.data);
+    return setDeletedPostMessage("The post has been deleted");
   }
 
   useEffect(() => {
@@ -165,7 +164,7 @@ function Post() {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      {post.length ? <ul>{renderPost()}</ul> : <p>{DeletedPostMessage} </p>}
+      {post.length > 0 ? <ul>{renderPost()}</ul> : <p>{DeletedPostMessage} </p>}
     </>
   );
 }

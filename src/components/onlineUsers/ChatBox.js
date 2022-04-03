@@ -10,13 +10,17 @@ const ChatBox = ({
 }) => {
   const { sessionSocket } = useContext(AuthContext);
   const { chatMessage } = useContext(AuthContext);
-
+  const { onlineUsers } = useContext(AuthContext);
   const [checkIfOpen, setcheckIfOpen] = useState(false)
 
   const elem = useRef(null);
   const inputChatMessage = useRef(null);
 
   useEffect(() => {
+    if (onlineUsers.find(onlineUser => onlineUser === elem.current.parentElement.className))
+      elem.current.parentElement.style.backgroundColor = "#ddd"
+    else elem.current.parentElement.style.backgroundColor = "#FF0000"
+    console.log("new online user")
     if (chatMessage) {
       //scroll down on new chat message
       elem.current.children[1].children[0].addEventListener(
@@ -27,7 +31,7 @@ const ChatBox = ({
         }
       );
     } else return false;
-  }, [chatMessage]);
+  }, [chatMessage, onlineUsers]);
 
   function renderMessages(user) {
     return chatMessages.filter((item) => item.from === user || item.user === user).map((item, i) => {
@@ -79,7 +83,6 @@ const ChatBox = ({
       marginLeft: "10px",
       border: "2px solid #bbb",
       padding: "5px",
-      backgroundColor: "#ddd",
       display: "inline-block",
     }}>
       <div
@@ -113,9 +116,12 @@ const ChatBox = ({
               padding: "5px",
             }}
           >
+            
             {renderMessages(user)}
+            {!onlineUsers.find(onlineUser => onlineUser === user) ? <h5>The user is currently offline, {user} will not recieve any further messages.</h5> : null}
           </div>
           <br></br>
+          {onlineUsers.find(onlineUser => onlineUser === user) ?
           <form onSubmit={(e) => sendMessage(e, user)} style={{ paddingLeft: "10px", display: "flex", width: "300px",}}>
             <div
               ref={inputChatMessage}
@@ -124,7 +130,7 @@ const ChatBox = ({
             >
             </div>
             <button  type="submit">SEND</button>
-          </form>
+          </form>: null}
         </div>
       </div>
     </div>

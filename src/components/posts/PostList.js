@@ -119,7 +119,7 @@ function PostList() {
               <Toggle buttonName={post.comments.length ? `💬 ${post.comments.length}` : "No comments yet"}>
                 {post.comments.slice(0).reverse().map((comment, i) => {
                   return (
-                    <div style={{ backgroundColor: "#fff", padding: "18px", position: 'relative' }} key={i}>
+                    <div key={i}>
                       <div style={{ fontSize: "80%", color: "#555", fontStyle: "italic" }}>{comment.user}</div>
                       <br></br>
                       <div>{comment.comment}</div>
@@ -132,7 +132,6 @@ function PostList() {
                           {"🗑️"}
                         </button>
                       )}
-                      <br></br>
                       <hr></hr>
                     </div>
                   );

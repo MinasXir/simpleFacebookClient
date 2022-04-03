@@ -22,7 +22,6 @@ function Navbar() {
       height: "8vh",
       width: "100vw",
       position: "sticky",
-      color: `#fff`,
       top: "0",
       backgroundColor: "#444",
       zIndex: "1",
@@ -34,7 +33,7 @@ function Navbar() {
     return {
       display: `block`,
       border: `1px solid black`,
-      color: `#000`,
+      color: `#333`,
       width: `15vw`,
       padding: `10px`,
       margin: `10px 0px 10px 0px`,
@@ -63,8 +62,8 @@ function Navbar() {
     <>
     {(loggedIn === true || loggedIn === "admin") && (
     <div style={NavBarStyle()}>
-    <Link onClick={changeStateToRerender} to="/">Posts</Link>
-    <Link to="/users">Users</Link>
+          <Link style={{ color: `#fff`}} onClick={changeStateToRerender} to="/">Posts</Link>
+          <Link style={{ color: `#fff` }} to="/users">Users</Link>
      <div style={{display:"flex"}}>
       <Toggle buttonName={`likes:${NotificationsLikes.length ? NotificationsLikes.length : 0}`}>
       <h3>Likes</h3>

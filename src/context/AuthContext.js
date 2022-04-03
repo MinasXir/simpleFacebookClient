@@ -14,14 +14,8 @@ function AuthContextProvider(props) {
   const [rerenderCheck, setRerenderCheck] = useState(false);
   const [chatMessage, setchatMessage] = useState(null);
   const [notice, setNotice] = useState();
-  const [
-    NotificationsLikes,
-    setNotificationsLikes,
-  ] = useState([]);
-  const [
-    NotificationsComments,
-    setNotificationsComments,
-  ] = useState([]);
+  const [NotificationsLikes, setNotificationsLikes] = useState([]);
+  const [NotificationsComments, setNotificationsComments] = useState([]);
 
   async function getNotifications() {
     const notifications = await axios.get(
@@ -54,14 +48,22 @@ function AuthContextProvider(props) {
     socket.on("post-like-notification", (messageAndPost) => {
       setNotice(messageAndPost.message);
       setNotificationsLikes(NotificationsLikes => [messageAndPost.post , ...NotificationsLikes])
+      setPosts(posts => posts.map(
+        post => post._id === messageAndPost.post._id ? { ...post, likes: messageAndPost.post.likes } : post
+      ))
     });
     socket.on("post-dislike-notification", (personWhoDisLikedYourPost) => {
-     getNotifications();
+      setPosts(posts => posts.map(
+        post => post._id === personWhoDisLikedYourPost.post._id ? { ...post, likes: personWhoDisLikedYourPost.post.likes } : post
+      ))
       if (personWhoDisLikedYourPost !== currentUsername.name)
         setNotice(personWhoDisLikedYourPost.message);
     });
     socket.on("post-comment-notification", (messageAndPost) => {
       setNotificationsComments(NotificationsComments => [messageAndPost.post, ...NotificationsComments])
+      setPosts(posts => posts.map(
+        post => post._id === messageAndPost.post._id ? { ...post, comments: messageAndPost.post.comments } : post
+      ))
       if (messageAndPost.name !== currentUsername.name) 
         setNotice(messageAndPost.message);
     });

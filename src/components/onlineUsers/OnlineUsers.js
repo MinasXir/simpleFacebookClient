@@ -28,7 +28,7 @@ function OnlineUsers() {
       left: !onlineList && "-2px",
       bottom: !onlineList && "0px",
       top: onlineList && "10vh",
-      zIndex: onlineUsers.length > 1 ? "0" : "-1",
+      zIndex: "0",
       height: onlineList ? "100%" : "auto",
       width: onlineList ? "10vw"  : "auto",
       display: onlineUsers.length > 0 ? "block" : "none",
