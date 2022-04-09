@@ -28,7 +28,7 @@ function OnlineUsers() {
       left: !onlineList && "-2px",
       bottom: !onlineList && "0px",
       top: onlineList && "10vh",
-      zIndex: "0",
+      zIndex: onlineList ? "1" : "3",
       height: onlineList ? "100%" : "auto",
       width: onlineList ? "10vw"  : "auto",
       display: onlineUsers.length > 0 ? "block" : "none",
@@ -44,6 +44,7 @@ function OnlineUsers() {
         return (
           <div
             key={i}
+            className="onlineUser"
             style={{display: "flex", marginBottom:"5px" ,alignItems:"center", cursor:"pointer"}}
             onClick={() => check(user)}
           >

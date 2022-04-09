@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import { io } from "socket.io-client";
 
-function LogOutBtn() {
+function LogOutBtn({ NavBarItemStyle}) {
   const { getLoggedIn } = useContext(AuthContext);
   const history = useHistory();
 
@@ -22,7 +22,7 @@ function LogOutBtn() {
     history.push("/");
   }
 
-  return <span style={{ cursor: "pointer" }} onClick={logOut}>Log out</span>;
+  return <div style={NavBarItemStyle()} onClick={logOut}>Log out</div>;
 }
 
 export default LogOutBtn;

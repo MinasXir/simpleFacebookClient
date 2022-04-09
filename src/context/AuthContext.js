@@ -97,6 +97,7 @@ function AuthContextProvider(props) {
       if (loggedInRes.data.name)
         setCurrentUsername(loggedInRes.data);
         handleSocketUsers(loggedInRes.data.name);
+      getNotifications();
     };
     loggedInRes();
   }, []);

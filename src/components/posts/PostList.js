@@ -15,6 +15,7 @@ function PostList() {
   const [notice, setNotice] = useState();
 
   const deletePost = async (postId) => {
+    console.log("sasa")
     await axios
       .delete(`http://localhost:5000/post/deletepost/${postId}`)
       .then((response) => {
@@ -56,7 +57,7 @@ function PostList() {
         const likePostSocket = {
           postId, userName, userWhoGetsTheLike,
         };
-        if (event.target.innerText === "👎" && sessionStorage.getItem("token")) {
+        if (event.target.className !== "greyIcon" && sessionStorage.getItem("token")) {
           sessionSocket.emit("post-like", likePostSocket);
         }
         else {
@@ -85,15 +86,29 @@ function PostList() {
       right: box === "delete" || box === "FullPost" ? "0" : null , 
       top: box === "name" || box === "delete" ?  "0" : null, 
       bottom: box === "FullPost" ? "0" : null,
-      padding: "5px"
+      padding: "5px",
+      zIndex:"2"
   };
 };
+
+function likesCasesDisplay(post){
+  if (post.likes.find(like => like.user === currentUsername.name) && post.likes.length > 1 )
+  return <span>Yours and {post.likes.length - 1} likes</span>
+  if (post.likes.find(like => like.user === currentUsername.name) && post.likes.length === 1)
+  return <span>You liked it first</span>
+  if (!post.likes.find(like => like.user === currentUsername.name) && post.likes.length > 1)
+    return <span>{post.likes.length} liked this post</span>
+  else return <span>No likes yet</span>
+}
 
   function renderPosts() {
     return posts.map((post, i) => {
       return (
         <div className={`class${post._id ? post._id : ""}`} style={divstyle("#999")} key={i}>
           <div style={divsAbsoluteStyle("name")}>{post.name}</div>
+          {post.name === currentUsername.name && (
+            <button style={divsAbsoluteStyle("delete")} onClick={() => deletePost(post._id)}>{"🗑️"}</button>
+          )}
             <br></br>
            {post.post}
           <br></br>
@@ -101,12 +116,12 @@ function PostList() {
           <br></br>
           <PostComment postName={post.name} postId={post._id} />
           <br></br>
-          <div style={{ display: "flex", alignItems:"center", width:"100%" }}>
-          <button onClick={(event) => likePost(event, post._id, currentUsername.name, post.name)}>
-          {post.likes.find((element) => element.user === currentUsername.name) ? "👎" : "👍"}
-          </button>
-            {post.likes.length > 0 &&
-          <Toggle buttonName={`${post.likes.length}`}>
+          <div style={{ display: "flex", alignItems:"center" }}>
+          <div onClick={(event) => likePost(event, post._id, currentUsername.name, post.name)}>
+              {post.likes.find((element) => element.user === currentUsername.name) ? <div style={{
+                cursor: "pointer", margin: "0px 10px 7px 0px", color: "transparent", textShadow: `0 0 0 #2672ff` }}>👍</div> : <div className="greyIcon" style={{margin: "0px 10px 7px 0px" }}>👍</div>}
+              </div>
+                <Toggle buttonName={likesCasesDisplay(post)}>
             {post.likes.map((like, i) => {
               return (
                 <div key={i}>
@@ -114,12 +129,12 @@ function PostList() {
                 </div>
               );
             })}
-          </Toggle>}
-            {post.comments.length > 0 &&
-              <Toggle buttonName={post.comments.length ? `💬 ${post.comments.length}` : "No comments yet"}>
+          </Toggle>
+            <div style={{ margin: "0px 0px 5px 10px" }}>
+              <Toggle buttonName={`💬 ${post.comments.length}`}>
                 {post.comments.slice(0).reverse().map((comment, i) => {
                   return (
-                    <div key={i}>
+                    <div style={{position:"relative"}} key={i}>
                       <div style={{ fontSize: "80%", color: "#555", fontStyle: "italic" }}>{comment.user}</div>
                       <br></br>
                       <div>{comment.comment}</div>
@@ -136,12 +151,9 @@ function PostList() {
                     </div>
                   );
                 })}
-              </Toggle>}
+              </Toggle>
+            </div>
           </div>
-          {post.name === currentUsername.name && (
-            <button style={divsAbsoluteStyle("delete")} onClick={() => deletePost(post._id)}>{"🗑️"}</button>
-          )}
-          <br></br>
           <Link style={divsAbsoluteStyle("FullPost")} to={`/post/${post._id}`}>Full post</Link>
         </div>
       );

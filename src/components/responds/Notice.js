@@ -8,7 +8,7 @@ export default function Notice({ clearNotice, message }) {
     return {
       position: `fixed`,
       top: `2%`,
-      left: `1%`,
+      left: `5%`,
       padding: `15px`,
       borderRadius: `5px`,
       border:"1px solid #777",

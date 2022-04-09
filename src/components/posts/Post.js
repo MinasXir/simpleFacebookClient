@@ -164,7 +164,7 @@ function Post() {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      {post.length > 0 ? <ul>{renderPost()}</ul> : <p>{DeletedPostMessage} </p>}
+      {post.length ? <ul>{renderPost()}</ul> : <p>{DeletedPostMessage} </p>}
     </>
   );
 }
