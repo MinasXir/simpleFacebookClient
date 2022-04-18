@@ -3,13 +3,13 @@ import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import Notice from "../responds/Notice";
+import styles from "./Register.module.css";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
-  const [photolink, setPhotolink] = useState("");
   const [notice, setNotice] = useState();
 
   const { getLoggedIn } = useContext(AuthContext);
@@ -24,7 +24,6 @@ function Register() {
         email,
         password,
         passwordVerify,
-        photolink,
       };
 
       const postRes = await axios.post("http://localhost:5000/auth/", registerData);
@@ -45,39 +44,39 @@ function Register() {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      <h1>Register a new account</h1>
-      <form onSubmit={register}>
+      <form className={styles.logginRegister} onSubmit={register}>
+        <h1>Register a new account</h1>
+        <div style={{display:"flex"}}>
         <input
+            className={styles.loggimRegisterInput}
           type="text"
           placeholder="name"
           onChange={(e) => setName(e.target.value)}
           value={name}
         /><br></br><br></br>
         <input
+            className={styles.loggimRegisterInput}
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-        /><br></br><br></br>
+          /></div><br></br>
+        <div style={{ display: "flex" }}>
         <input
+            className={styles.loggimRegisterInput}
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-        /><br></br><br></br>
+        />
         <input
+            className={styles.loggimRegisterInput}
           type="password"
           placeholder="Verify your password"
           onChange={(e) => setPasswordVerify(e.target.value)}
           value={passwordVerify}
-        /><br></br><br></br>
-        <input
-          type="text"
-          placeholder="Photo link"
-          onChange={(e) => setPhotolink(e.target.value)}
-          value={photolink}
-        /><br></br><br></br>
-        <button type="submit">Register</button>
+        /></div><br></br>
+        <button className={styles.butt} type="submit">Register</button>
       </form>
     </div>
   );

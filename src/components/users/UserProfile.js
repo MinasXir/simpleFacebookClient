@@ -25,8 +25,9 @@ function UserProfile() {
     return {
       border: `1px solid ${color}`,
       padding: "10px",
-      marginTop: "4px",
-      width: "70vw"
+      marginTop: "10vh",
+      marginLeft:"5vw",
+      width: "73vw"
     };
   };
   return (

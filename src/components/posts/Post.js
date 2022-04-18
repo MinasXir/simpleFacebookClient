@@ -88,21 +88,21 @@ function Post() {
     }
   };
 
-  const divstyle = (color) => {
+  const divstyle = () => {
     return {
-      border: `1px solid ${color}`,
-      padding: color === "#999" ? "35px" : "0px",
+      border: `1px solid`,
       overflowWrap: `break-word`,
       backgroundColor: "rgb(248, 248, 248)",
-      width:"70vw",
-      position: "relative",
+      width:"75vw",
+      marginTop: "10vh",
+      marginLeft: "5vw",
       boxShadow: ` 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)`
     };
   };
   function renderPost() {
     return post.map((post, i) => {
       return (
-        <div className={`${post._id}`} style={divstyle("#444")} key={i}>
+        <div className={`${post._id}`} style={divstyle()} key={i}>
           {post.name} - {post.post}
           <Toggle buttonName={`Likes:${post.likes.length}`}>
             {post.likes.map((like, i) => {
@@ -141,7 +141,7 @@ function Post() {
           {post.comments &&
             post.comments.map((comment, i) => {
               return (
-                <div style={divstyle("red")} key={i}>
+                <div key={i}>
                   <span>{comment.user}</span> - <span>{comment.comment}</span>-{" "}
                   <span>{comment.date.substring(0, comment.date.length - 8).replace("T", "  ")}</span>
                   {comment.user === currentUsername.name && (
@@ -164,7 +164,7 @@ function Post() {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      {post.length ? <ul>{renderPost()}</ul> : <p>{DeletedPostMessage} </p>}
+      {post.length ? <>{renderPost()}</> : <p>{DeletedPostMessage} </p>}
     </>
   );
 }

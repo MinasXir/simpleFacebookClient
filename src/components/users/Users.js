@@ -49,8 +49,9 @@ function Users() {
       <div style={{
         border: `solid 2px #ccc`,
         height: "100%",
+        marginTop: "10vh",
         marginLeft: "5vw",
-        width: "75vw",
+        width: "74vw",
         overflowY: "auto",
         overflowWrap: `break-word`,
         padding: "5px",}}>

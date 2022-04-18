@@ -38,16 +38,17 @@ function Posts() {
       // gap: "10px",
       width: onlineUsers.length > 1 ? "75vw": "85vw",
       height:"100%",
-      marginLeft:"5vw"
+      marginLeft:"5vw",
+      marginTop: "10vh",
     };
   };
   if (loggedIn === true || loggedIn === "admin") {
     return (
       <>
         {isLoading && <Loader />}
-        <PostForm/>
-        <br></br>
         <div style={postsContainerStyle()} >
+          <PostForm />
+          <br></br>
           <PostList setPosts={setPosts} posts={posts}/>
         </div>
       </>

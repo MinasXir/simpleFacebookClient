@@ -24,10 +24,10 @@ export default function Toggle({ children, buttonName }) {
       padding: `10px`,
       backgroundColor: "#fff",
       fontSize: `1em`,
-      zIndex: "2",
+      zIndex: "3",
       border: "1px solid #8888",
       boxShadow: ` 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)`,
-      maxWidth: "35vw",
+      maxWidth: "40vw",
       maxHeight: "70vh",
       overflowWrap: `break-word`,
     };

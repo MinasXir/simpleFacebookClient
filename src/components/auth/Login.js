@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import Notice from "../responds/Notice";
+import styles from "./Register.module.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -35,21 +36,23 @@ function Login() {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      <h1>Log in to your account</h1>
-      <form onSubmit={login}>
+      <form className={styles.logginRegister} onSubmit={login}>
+        <h1>Log in to your account</h1>
         <input
+          className={styles.loggimRegisterInput}
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
         /><br></br><br></br>
         <input
+          className={styles.loggimRegisterInput}
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         /><br></br><br></br>
-        <button type="submit">Log in</button>
+        <button className={styles.butt} type="submit">Log in</button>
       </form>
     </div>
   );

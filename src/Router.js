@@ -12,12 +12,23 @@ import AuthContext from "./context/AuthContext";
 
 function Router() {
   const { loggedIn } = useContext(AuthContext);
+  const RegisterLoginStyle = () => {
+    return {
+      width:"65vw",
+      margin:"10% auto",
+      display: "grid",
+      padding:"20px",
+      gridTemplateColumns: "repeat(auto-fill, minmax(min(20rem, 100%), 1fr))",
+      gap: "10px",
+      textAlign:"center",
+    };
+  };
   return (
     <BrowserRouter>
       <Navbar />
       <Switch>
         <Route exact path="/">
-        {loggedIn === false ? (<><Register /><Login /></>) 
+          {loggedIn === false ? (<div style={RegisterLoginStyle()}><Register /><Login /></div>) 
         : <><Posts /></>} 
         </Route>
         {loggedIn && (

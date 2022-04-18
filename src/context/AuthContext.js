@@ -47,24 +47,21 @@ function AuthContextProvider(props) {
     });
     socket.on("post-like-notification", (messageAndPost) => {
       setNotice(messageAndPost.message);
-      setNotificationsLikes(NotificationsLikes => [messageAndPost.post , ...NotificationsLikes])
+      setNotificationsLikes(NotificationsLikes => [messageAndPost.post, ...NotificationsLikes])
       setPosts(posts => posts.map(
-        post => post._id === messageAndPost.post._id ? { ...post, likes: messageAndPost.post.likes } : post
-      ))
+        post => post._id === messageAndPost.post._id ? { ...post, likes: messageAndPost.post.likes } : post));  
     });
     socket.on("post-dislike-notification", (personWhoDisLikedYourPost) => {
       setPosts(posts => posts.map(
         post => post._id === personWhoDisLikedYourPost.post._id ? { ...post, likes: personWhoDisLikedYourPost.post.likes } : post
       ))
-      if (personWhoDisLikedYourPost !== currentUsername.name)
         setNotice(personWhoDisLikedYourPost.message);
     });
     socket.on("post-comment-notification", (messageAndPost) => {
       setNotificationsComments(NotificationsComments => [messageAndPost.post, ...NotificationsComments])
       setPosts(posts => posts.map(
         post => post._id === messageAndPost.post._id ? { ...post, comments: messageAndPost.post.comments } : post
-      ))
-      if (messageAndPost.name !== currentUsername.name) 
+      )) 
         setNotice(messageAndPost.message);
     });
     socket.on("message", (message) => {
@@ -74,6 +71,7 @@ function AuthContextProvider(props) {
       setPosts(postAndUser.posts)
       setNotice(postAndUser.message);
     });
+    
   }
 
   //for click on posts route , passing it on context api props
@@ -94,10 +92,11 @@ function AuthContextProvider(props) {
         "http://localhost:5000/auth/loggedIn"
       );
       setLoggedIn(loggedInRes.data.userIs);
-      if (loggedInRes.data.name)
+      if (loggedInRes.data.name){
         setCurrentUsername(loggedInRes.data);
         handleSocketUsers(loggedInRes.data.name);
-      getNotifications();
+        getNotifications();
+      }
     };
     loggedInRes();
   }, []);

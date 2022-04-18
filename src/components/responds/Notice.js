@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Notice.Module.css";
+import styles from "./Notice.module.css";
 
 export default function Notice({ clearNotice, message }) {
   setTimeout(clearNotice, 2000);
@@ -7,19 +7,17 @@ export default function Notice({ clearNotice, message }) {
   const noticeStyle = () => {
     return {
       position: `fixed`,
-      top: `2%`,
-      left: `5%`,
-      padding: `15px`,
-      borderRadius: `5px`,
-      border:"1px solid #777",
-      backgroundColor:"#fff",
-      color: `rgb(255, 255, 255)`,
-      zIndex:"3"
+      top: `0%`,
+      left: `0%`,
+      padding: `20px`,
+      backgroundColor:"#000",
+      zIndex:"4",
+      fontWeight:"bold"
     };
   };
   return (
     <div className={styles.notice} style={noticeStyle()}>
-      <span style={{ color: message.errorMessage ? "red" : "#555",}}>
+      <span style={{ color: message.errorMessage ? "rgb(207, 34, 34)" : "rgb(2, 238, 80)" }}>
         {message.errorMessage
           ? message.errorMessage
           : message.message

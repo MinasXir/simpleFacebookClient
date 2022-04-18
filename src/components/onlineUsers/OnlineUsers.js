@@ -22,18 +22,19 @@ function OnlineUsers() {
   };
   const divstyle = (onlineList) => {
     return {
-      border: onlineList && onlineUsers.length > 1 ? `1px solid black` : "none",
+      //border: onlineList && onlineUsers.length > 1 ? `1px solid black` : "none",
       position: "fixed",
       right: onlineList && "7px",
       left: !onlineList && "-2px",
       bottom: !onlineList && "0px",
-      top: onlineList && "10vh",
+      top: onlineList && "0",
       zIndex: onlineList ? "1" : "3",
-      height: onlineList ? "100%" : "auto",
+      height: onlineList ? "96.2vh" : "auto",
+      maxHeight:"100%",
       width: onlineList ? "10vw"  : "auto",
       display: onlineUsers.length > 0 ? "block" : "none",
       padding: onlineList ? "10px" : "0",
-      transition:"all 1s ease"
+      border: onlineList && onlineUsers.length > 1 ? `3px solid` : "none",
     };
   };
 

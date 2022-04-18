@@ -9,7 +9,7 @@ export default function PostComment({ postName, postId }) {
   const { setPosts } = useContext(AuthContext);
   const [notice, setNotice] = useState();
   const { sessionSocket } = useContext(AuthContext);
-  const inputComment = useRef(null)
+  const inputComment = useRef(null);
   const submit = async (e) => {
     e.preventDefault();
     try {
@@ -23,9 +23,13 @@ export default function PostComment({ postName, postId }) {
         .then((response) => {
           response.data && setNotice(response.data);
           //update main posts array by replacing the old object post.   comments with the new from the response
-          setPosts(posts.map(
-            post => post._id === response.data.post._id ? { ...post, comments: response.data.post.comments } : post
-          ));
+          setPosts(
+            posts.map((post) =>
+              post._id === response.data.post._id
+                ? { ...post, comments: response.data.post.comments }
+                : post
+            )
+          );
           if (sessionStorage.getItem("token")) {
             const commentPostSocket = {
               postId: postId,
@@ -34,7 +38,7 @@ export default function PostComment({ postName, postId }) {
             };
             sessionSocket.emit("post-comment", commentPostSocket);
           }
-          inputComment.current.innerText = ""
+          inputComment.current.innerText = "";
         });
     } catch (err) {
       err.response.data.errorMessage && setNotice(err.response.data);
@@ -45,14 +49,26 @@ export default function PostComment({ postName, postId }) {
       {notice && (
         <Notice message={notice} clearNotice={() => setNotice(undefined)} />
       )}
-      <form style={{display:"flex"}} onSubmit={submit}>
+      <form style={{ display: "flex" }} onSubmit={submit}>
         <div
           ref={inputComment}
           contentEditable="true"
-          style={{ width: "30vw", border: "1px solid #000" }}
-        >
-        </div>
-        <input type="submit" value="New comment"/>
+          style={{
+            width: "30vw",
+            border: `1px solid`,
+            borderImageSlice: "1",
+            borderImageSource: `linear-gradient(to left, #444, #111) `,
+          }}
+        ></div>
+        <input
+          style={{
+            background: "#111",
+            color: "#fff",
+            border: "none",
+          }}
+          type="submit"
+          value="New comment"
+        />
       </form>
     </>
   );

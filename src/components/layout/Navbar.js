@@ -10,6 +10,7 @@ function Navbar() {
   const { notifications } = useContext(AuthContext);
   const { NotificationsComments } = useContext(AuthContext);
   const { NotificationsLikes } = useContext(AuthContext);
+  const { onlineUsers } = useContext(AuthContext);
 
   //updates posts useEfFect component when the Link is clicked in case we already in posts page but we need to get latests post and scroll up.
   const { changeStateToRerender } = useContext(AuthContext);
@@ -18,20 +19,22 @@ function Navbar() {
     return {
       display: `${loggedIn === true || loggedIn === "admin" ? "flex" : "none"}`,
       justifyContent: "space-around",
+      backgroundColor:"#fff",
       alignItems: "center",
       height: "8vh",
-      width: "100vw",
-      position: "sticky",
+      width: onlineUsers.length > 1 ? "74.6vw" : "84.5vw",
+      position: "fixed",
       top: "0",
-      backgroundColor: "rgb(248, 248, 248)",
-      zIndex: "1",
+      left:"5vw",
+      border: `3px solid`,
+      zIndex: "3",
     };
   };
 
   const NavBarItemStyle = (adminName) => {
     return {
-      backgroundColor: "#fff",
-      color: adminName ? "#2672ff" : "#000",
+      fontWeight: adminName && "900",
+      color: adminName ? "#b2ff59" : "#000",
       borderRadius: "5px",
       padding: "5px",
       display:"flex",
@@ -66,7 +69,7 @@ function Navbar() {
       }
     );
   }
-
+  console.log(NotificationsLikes)
   return (
     <>
       {(loggedIn === true || loggedIn === "admin") && (
@@ -83,12 +86,18 @@ function Navbar() {
           </Link>
           <div style={{ display: "flex", justifyContent:"space-between", width:'90px' }}>
             <Toggle
-              buttonName={<ul style={NavBarItemStyle()}><li>👍</li><li>{
+              buttonName={<ul style={NavBarItemStyle()}><li className="greyIcon">👍</li><li>{
                 NotificationsLikes.length ? NotificationsLikes.length : 0
               }</li></ul>}>
               <h3>Likes</h3>
               {notifications &&
-                NotificationsLikes.map((notification, i) => {
+              //avoid dublicate notifications with reduce
+                NotificationsLikes.reduce((unique, o) => {
+                  if (!unique.some(obj => obj._id === o._id)) {
+                    unique.push(o);
+                  }
+                  return unique;
+                }, []).map((notification, i) => {
                   return (
                     <div key={i}>
                       {notification.post.substring(0, 22)}
@@ -100,7 +109,7 @@ function Navbar() {
                             <Link
                               style={NotificationLikeStyle(like)}
                               onClick={() =>
-                                readNotification(like.postId, like.user)
+                                readNotification(like.postId)
                               }
                               to={`/post/${like.postId}`}
                               key={i}
@@ -134,8 +143,7 @@ function Navbar() {
                               style={NotificationLikeStyle(comment)}
                               onClick={() =>
                                 readNotificationComment(
-                                  comment.postId,
-                                  comment.user
+                                  comment.postId
                                 )
                               }
                               to={`/post/${comment.postId}`}
@@ -151,7 +159,7 @@ function Navbar() {
                 })}
             </Toggle>
           </div>
-          <div style={{ display: "flex", justifyContent:"space-between", width:'130px' }}>
+          <div style={{ display: "flex",}}>
           <Link to={`/user/${currentUsername.userProfileId}`}>
             <span
               style={NavBarItemStyle("adminName")}
